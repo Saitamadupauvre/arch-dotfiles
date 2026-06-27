@@ -1,0 +1,13 @@
+// Space theme
+* {
+    bg0:    #06061aF2;
+    bg1:    #0a0a22;
+    bg2:    #1a1a3E80;
+    bg3:    #2a2a5AF2;
+    fg0:    #e8eeff;
+    fg1:    #ffffff;
+    fg2:    #9090c0;
+    fg3:    #2a2a5a;
+}
+
+@import "template/rounded-template.rasi"
