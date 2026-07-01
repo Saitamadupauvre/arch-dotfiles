@@ -4,63 +4,107 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Stow Architecture
 
-Two stow sources, both targeting `$HOME`:
+Three stow sources, all targeting `$HOME`:
 
 ```
 dotfiles/
   assets/                            # shared static assets (wlogout icons, backgrounds)
-  themes/                            # stow dir for theme packages
+  base/                               # permanent, always-stowed package: keybinds, autostart,
+                                       # env vars, monitor/workspace fallbacks, program vars,
+                                       # and any config that's identical across every theme
+  themes/                            # stow dir for theme packages (only visuals live here)
     .stow                            # marks this as its own stow boundary
-    catppuccin/                      # complete self-contained theme
-    space/                           # complete self-contained theme
+    simple-monochrome/                # complete theme: colors + wallpaper + a few theme-only files
 ```
 
-Each theme is fully self-contained — no shared base packages. Every tool's config lives entirely inside the theme dir.
+`base` is never unstowed when switching themes — it holds everything that doesn't change with
+the visual theme: keybinds, window rules, autostart daemons, env vars, generic monitor/workspace
+fallbacks, program variables (`$terminal`, `$browser`, etc.), and any app config (waybar layout,
+wlogout layout, GTK chrome/settings, shared rofi templates) that doesn't carry theme colors.
 
-**Always stow with `--no-folding`** — themes share `.config/<tool>/` directory names. Without `--no-folding`, stow creates a single directory symlink that conflicts when switching.
+Each theme package under `themes/` is small and only contains what actually changes with the
+theme: colors, wallpaper, blur/gaps/animation feel, and files that embed color values directly
+(waybar `style.css`, dunst `dunstrc`, tofi configs, wlogout `style.css`, btop theme + `color_theme`
+line, rofi color palette `.rasi`, ghostty `config`, hypr `theme.conf`/`behavior.conf`/`hyprlock.conf`).
+
+**Always stow with `--no-folding`** — packages share `.config/<tool>/` directory names. Without
+`--no-folding`, stow creates a single directory symlink that conflicts between `base` and `themes/*`.
 
 ```bash
 # Apply shared assets (one-time)
 stow --dir=~/dotfiles --target=$HOME --no-folding assets
 
-# Apply a theme
-stow --dir=~/dotfiles/themes --target=$HOME --no-folding catppuccin
+# Apply base (one-time, permanent — do this before stowing any theme)
+stow --dir=~/dotfiles --target=$HOME --no-folding base
 
-# Switch themes (recommended)
-~/.config/hypr/theme-switch.sh space
+# Apply a theme
+stow --dir=~/dotfiles/themes --target=$HOME --no-folding simple-monochrome
+
+# Switch themes (recommended — never touches base)
+~/.config/hypr/theme-switch.sh simple-monochrome
 
 # Remove a theme
-stow --dir=~/dotfiles/themes --target=$HOME -D catppuccin
+stow --dir=~/dotfiles/themes --target=$HOME -D simple-monochrome
 ```
 
-## Theme Contents
-
-Each theme dir (`themes/<name>/`) contains all tool configs:
+## Base Contents
 
 | Tool | Files |
 |---|---|
-| hypr | hyprland.conf, theme.conf, behavior.conf, hyprlock.conf, env.conf, autostart.conf, monitors.conf, binds.conf, rules.conf, workspaces.conf, hypridle.conf, theme-switch.sh |
-| kitty | kitty.conf, theme.conf |
-| waybar | config.jsonc, style.css |
-| dunst | dunstrc |
-| tofi | configA, configV |
-| wlogout | layout, style.css |
-| btop | btop.conf, themes/<name>.theme |
+| hypr | binds.conf, rules.conf, env.conf, autostart.conf, autostart.sh, monitors.conf, workspaces.conf, programs.conf, hypridle.conf, theme-switch.sh |
+| waybar | config.jsonc (module layout) |
+| wlogout | layout |
+| rofi | template/rounded-template.rasi, and shared palette rasi files not tied to the active theme |
 | gtk-3.0 | gtk.css, colors.css, settings.ini, window_decorations.css, assets/ |
 | gtk-4.0 | colors.css, settings.ini, window_decorations.css |
-| rofi | template/rounded-template.rasi, <name>.rasi, other rasi files |
+| root | .gtkrc-2.0 |
+
+`base/.config/gtk-3.0/colors.css` and `gtk-4.0/colors.css` are Breeze system-theme colors, not
+our color scheme — identical across all themes historically, so they live in base, not per-theme.
+
+## Theme Contents
+
+Each theme dir (`themes/<name>/`) contains only visual overrides:
+
+| Tool | Files |
+|---|---|
+| hypr | theme.conf (colors, wallpaper), behavior.conf (gaps/blur/rounding/animations), hyprlock.conf |
+| waybar | style.css |
+| dunst | dunstrc |
+| tofi | configA, configV |
+| wlogout | style.css |
+| btop | btop.conf, themes/<name>.theme |
+| rofi | `<name>.rasi` (imports `~/.config/rofi/template/rounded-template.rasi` from base) |
+| ghostty | config |
+
+`themes/<name>/.config/hypr/hyprland.conf` is the one file that lives in the theme dir but isn't
+a visual override — Hyprland's glob engine can't follow symlinks into `base/`, so `hyprland.conf`
+must physically live alongside the rest of the theme and `source` both `base/` and the theme's
+own files directly (see Source paths below).
 
 ## Hyprland-specific Quirks
 
 **Race condition**: Hyprland rewrites `hyprland.conf` with an autogenerated stub while running. After any stow operation that touches the hypr package, use `--adopt` to let stow take the stub, then verify the dotfiles version still has the real config (check for `source =` at line ~1).
 
-**Source paths**: `hyprland.conf` sources all split files via hardcoded absolute paths pointing directly into the theme dir:
+**Source paths**: `hyprland.conf` sources base and theme split files via hardcoded absolute paths, base first so the theme's `theme.conf`/`behavior.conf` load last and can override any base variable if ever needed:
 ```
+source = /home/alban/dotfiles/base/.config/hypr/programs.conf
+source = /home/alban/dotfiles/base/.config/hypr/env.conf
+source = /home/alban/dotfiles/base/.config/hypr/autostart.conf
+source = /home/alban/dotfiles/base/.config/hypr/monitors.conf
+source = /home/alban/dotfiles/base/.config/hypr/workspaces.conf
+source = /home/alban/dotfiles/base/.config/hypr/binds.conf
+source = /home/alban/dotfiles/base/.config/hypr/rules.conf
 source = /home/alban/dotfiles/themes/<name>/.config/hypr/theme.conf
-source = /home/alban/dotfiles/themes/<name>/.config/hypr/env.conf
-# etc.
+source = /home/alban/dotfiles/themes/<name>/.config/hypr/behavior.conf
 ```
-Hyprland's glob engine fails on symlinks, so sources must point directly into the dotfiles tree.
+Hyprland's glob engine fails on symlinks, so sources must point directly into the dotfiles tree
+(never through the `~/.config/hypr/...` symlinks that stow creates).
+
+**`hypridle.conf` is not sourced by `hyprland.conf`** — it's the standalone `hypridle` daemon's
+own config file (loaded by the `hypridle` binary itself, launched via `autostart.conf`), not a
+Hyprland config fragment. Sourcing it from `hyprland.conf` produces `config option ... does not
+exist` errors for every line.
 
 **Reload after stow**: Stow changes don't auto-apply. Run `hyprctl reload` after any hypr config change.
 
@@ -75,22 +119,30 @@ Space between effect and value (`float 1` not `float:1`). Matchers: `match:class
 
 ## Adding a New Theme
 
-Copy an existing theme and modify all the color/behavior files:
+Copy the existing theme and modify only the color/behavior files — base stays untouched:
 
 ```bash
-cp -r ~/dotfiles/themes/catppuccin ~/dotfiles/themes/<name>
-# edit: theme.conf, behavior.conf, hyprlock.conf, waybar/style.css,
-#       dunst/dunstrc, kitty/theme.conf, tofi/config*, gtk-*/colors.css,
-#       wlogout/style.css, rofi/<name>.rasi, btop/btop.conf + btop/themes/<name>.theme
-# update all absolute paths in hyprland.conf (catppuccin → <name>)
+cp -r ~/dotfiles/themes/simple-monochrome ~/dotfiles/themes/<name>
+# edit: hypr/theme.conf, hypr/behavior.conf, hypr/hyprlock.conf, waybar/style.css,
+#       dunst/dunstrc, tofi/configA, tofi/configV, wlogout/style.css,
+#       btop/btop.conf + btop/themes/<name>.theme, rofi/<name>.rasi, ghostty/config
+# update the two theme source paths in hypr/hyprland.conf (<old-name> → <name>)
 ~/.config/hypr/theme-switch.sh <name>
 ```
 
-`theme-switch.sh` unstows all themes, stows the new one, applies wallpaper, reloads hyprland.
+`theme-switch.sh` (lives in `base/.config/hypr/`, so it's available regardless of which theme is
+active) unstows all packages under `themes/`, stows the new one, applies wallpaper, reloads hyprland.
+
+## simple-monochrome Palette
+
+Black/white/gray everywhere, with a single neon-violet accent (`#b45cff`) reserved for: the
+focused window border, waybar's active/focused workspace pill, and dunst's critical-urgency
+notification frame. Nothing else (rofi, tofi, wlogout, gtk, ghostty palette, inactive border)
+uses the accent color.
 
 ## Pending / Known Issues
 
 - `assets` package not stowed: `~/.config/assets/wlogout/` was root-owned. Fix: `sudo rm -rf ~/.config/assets && stow --dir=~/dotfiles --target=$HOME --no-folding assets`
 - `lock-hover.png` missing from `assets/.config/assets/wlogout/assets/`
-- Wallpaper paths in `theme.conf` (`cat_leaves.png`, `space.png`) reference `~/.config/assets/backgrounds/` which doesn't exist yet — no backgrounds directory
+- Wallpaper paths in `theme.conf`/`hyprlock.conf` (`monochrome.png`, `monochrome_blurred.png`) reference `~/.config/assets/backgrounds/` which doesn't exist yet — no backgrounds directory
 - `gtk-4.0/gtk.css` and `gtk-4.0/gtk-dark.css` are system symlinks to `/usr/share/themes/Breeze/gtk-4.0/` — not tracked here by design

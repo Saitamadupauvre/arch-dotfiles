@@ -1,0 +1,90 @@
+* {
+    font-family: JetBrains Mono, Symbols Nerd Font;
+    font-size: 24px;
+    transition-property: background-color;
+    transition-duration: 0.7s;
+}
+
+window {
+    background-color: #{{BG0}}D9;
+    border: 2px solid #{{ACCENT}}80;
+}
+
+button {
+    background-color: #{{BG1}}E6;
+    border-style: solid;
+    border-color: #{{ACCENT}};
+    border-width: 2px;
+    border-radius: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 15%;
+    margin: 15px;
+}
+
+button:active,
+button:hover {
+    background-color: #{{ACCENT}};
+    border-color: #{{ACCENT}};
+}
+
+button:focus {
+    background-color: #{{ACCENT}};
+    border-color: #{{ACCENT}};
+}
+
+#lock {
+    background-image: image(url("../assets/wlogout/assets/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+}
+
+#lock:hover {
+    background-image: image(url("../assets/wlogout/assets/lock-hover.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+    color: #{{BG0}};
+}
+
+#logout {
+    background-image: image(url("../assets/wlogout/assets/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+}
+
+#logout:hover {
+    background-image: image(url("../assets/wlogout/assets/logout-hover.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+    color: #{{BG0}};
+}
+
+#suspend {
+    background-image: image(url("../assets/wlogout/assets/sleep.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+}
+
+#suspend:hover {
+    background-image: image(url("../assets/wlogout/assets/sleep-hover.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+    color: #{{BG0}};
+}
+
+#shutdown {
+    background-image: image(url("../assets/wlogout/assets/power.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+}
+
+#shutdown:hover {
+    background-image: image(url("../assets/wlogout/assets/power-hover.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+    color: #{{BG0}};
+}
+
+#reboot {
+    background-image: image(url("../assets/wlogout/assets/restart.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+}
+
+#reboot:hover {
+    background-image: image(url("../assets/wlogout/assets/restart-hover.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+    color: #{{BG0}};
+}
+
+#exit {
+    background-image: image(url("../assets/wlogout/assets/restart.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+    background-color: #{{BG0}};
+}
+
+#exit:hover {
+    background-image: image(url("../assets/wlogout/assets/restart-hover.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+    color: #{{BG0}};
+    background-color: #{{ACCENT}};
+}
