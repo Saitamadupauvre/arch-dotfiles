@@ -1,6 +1,0 @@
-[Unit]
-Description=Apply the daily rotating wallpaper
-
-[Service]
-Type=oneshot
-ExecStart=%h/.config/hypr/wallpaper-daily.sh

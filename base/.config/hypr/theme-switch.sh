@@ -40,11 +40,14 @@ else
     THEME_CONF="$THEME_DIR/.config/hypr/theme.conf"
     WALLPAPER=$(grep '^\$wallpaper' "$THEME_CONF" | sed 's/.*= *//' | sed "s|~|$HOME|")
     if [[ -f "$WALLPAPER" ]]; then
-        swww img "$WALLPAPER" --transition-fps 255 --transition-type outer --transition-duration 0.8
+        awww img "$WALLPAPER" --transition-fps 255 --transition-type outer --transition-duration 0.8
     else
         echo "Warning: wallpaper not found: $WALLPAPER"
     fi
 fi
+
+pkill -x waybar || true
+waybar >/dev/null 2>&1 & disown
 
 hyprctl reload
 echo "Switched to theme: $THEME"

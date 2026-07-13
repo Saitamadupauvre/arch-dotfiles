@@ -1,0 +1,13 @@
+// Calm Blue
+* {
+    bg0:    #0a0e1a80;
+    bg1:    #0f152480;
+    bg2:    #5c7fff40;
+    bg3:    #5c7fffCC;
+    fg0:    #cddcff;
+    fg1:    #cddcff;
+    fg2:    #cddcff;
+    fg3:    #5c7099;
+}
+
+@import "template/rounded-template.rasi"

@@ -14,7 +14,7 @@ dotfiles/
                                        # and any config that's identical across every theme
   themes/                            # stow dir for theme packages (only visuals live here)
     .stow                            # marks this as its own stow boundary
-    simple-monochrome/                # complete theme: colors + wallpaper + a few theme-only files
+    calm-blue/                # complete theme: colors + wallpaper + a few theme-only files
 ```
 
 `base` is never unstowed when switching themes — it holds everything that doesn't change with
@@ -38,13 +38,13 @@ stow --dir=~/dotfiles --target=$HOME --no-folding assets
 stow --dir=~/dotfiles --target=$HOME --no-folding base
 
 # Apply a theme
-stow --dir=~/dotfiles/themes --target=$HOME --no-folding simple-monochrome
+stow --dir=~/dotfiles/themes --target=$HOME --no-folding calm-blue
 
 # Switch themes (recommended — never touches base)
-~/.config/hypr/theme-switch.sh simple-monochrome
+~/.config/hypr/theme-switch.sh calm-blue
 
 # Remove a theme
-stow --dir=~/dotfiles/themes --target=$HOME -D simple-monochrome
+stow --dir=~/dotfiles/themes --target=$HOME -D calm-blue
 ```
 
 ## Base Contents
@@ -122,7 +122,7 @@ Space between effect and value (`float 1` not `float:1`). Matchers: `match:class
 Copy the existing theme and modify only the color/behavior files — base stays untouched:
 
 ```bash
-cp -r ~/dotfiles/themes/simple-monochrome ~/dotfiles/themes/<name>
+cp -r ~/dotfiles/themes/calm-blue ~/dotfiles/themes/<name>
 # edit: hypr/theme.conf, hypr/behavior.conf, hypr/hyprlock.conf, waybar/style.css,
 #       dunst/dunstrc, tofi/configA, tofi/configV, wlogout/style.css,
 #       btop/btop.conf + btop/themes/<name>.theme, rofi/<name>.rasi, ghostty/config
@@ -133,7 +133,7 @@ cp -r ~/dotfiles/themes/simple-monochrome ~/dotfiles/themes/<name>
 `theme-switch.sh` (lives in `base/.config/hypr/`, so it's available regardless of which theme is
 active) unstows all packages under `themes/`, stows the new one, applies wallpaper, reloads hyprland.
 
-## simple-monochrome Palette
+## calm-blue Palette
 
 Black/white/gray everywhere, with a single neon-violet accent (`#b45cff`) reserved for: the
 focused window border, waybar's active/focused workspace pill, and dunst's critical-urgency
