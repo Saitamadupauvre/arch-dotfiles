@@ -22,4 +22,11 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     opts = {},
   },
+
+  -- vim-tmux-navigator: seamless Ctrl-hjkl pane switching between nvim
+  -- splits and tmux panes (tmux side already set up in ~/.config/tmux).
+  {
+    "christoomey/vim-tmux-navigator",
+    lazy = false,
+  },
 }
