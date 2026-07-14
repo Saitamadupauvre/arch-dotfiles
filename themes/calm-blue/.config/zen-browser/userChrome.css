@@ -1,0 +1,62 @@
+/* Calm Blue - Zen Browser chrome
+ * Install: symlink into your profile's chrome/ dir, e.g.
+ *   ln -sf ~/dotfiles/themes/calm-blue/.config/zen-browser/userChrome.css \
+ *          "~/.zen/<profile>/chrome/userChrome.css"
+ * Requires: toolkit.legacyUserProfileCustomizations.stylesheets = true (about:config)
+ */
+
+:root {
+    --cb-bg0: #0a0e1acc;
+    --cb-bg1: #0f1524cc;
+    --cb-bg2: #5c7fff40;
+    --cb-bg3: #5c7fffcc;
+    --cb-fg0: #cddcff;
+    --cb-fg3: #5c7099;
+}
+
+/* Toolbar / tab bar background */
+#navigator-toolbox,
+#TabsToolbar,
+#nav-bar {
+    background-color: var(--cb-bg0) !important;
+    color: var(--cb-fg0) !important;
+}
+
+/* Sidebar */
+#sidebar-box,
+#browser {
+    background-color: var(--cb-bg1) !important;
+}
+
+/* Tabs */
+.tabbrowser-tab .tab-background {
+    background-color: transparent !important;
+    border-radius: 10px !important;
+}
+
+.tabbrowser-tab[selected="true"] .tab-background {
+    background-color: var(--cb-bg2) !important;
+    outline: 1px solid var(--cb-bg3) !important;
+}
+
+.tabbrowser-tab .tab-label {
+    color: var(--cb-fg0) !important;
+}
+
+/* URL bar */
+#urlbar-background {
+    background-color: var(--cb-bg1) !important;
+    border: 1px solid var(--cb-bg3) !important;
+    border-radius: 12px !important;
+}
+
+#urlbar[focused="true"] #urlbar-background {
+    border-color: var(--cb-bg3) !important;
+    box-shadow: 0 0 0 1px var(--cb-bg3) !important;
+}
+
+/* Zen workspace / compact indicators pick up accent */
+#zen-workspaces-button,
+.zen-workspace-indicator[active="true"] {
+    color: var(--cb-bg3) !important;
+}

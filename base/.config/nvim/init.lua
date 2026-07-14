@@ -5,6 +5,7 @@
 -- We use Space. This MUST be set before plugins load, so it lives here.
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.opt.clipboard = "unnamedplus"
 
 -- Load editor options and global keymaps (files in lua/config/).
 require("config.options")

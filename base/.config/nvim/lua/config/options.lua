@@ -9,8 +9,8 @@ opt.number = true          -- show absolute line number on current line
 opt.relativenumber = true  -- other lines numbered relative to cursor (great for motions)
 
 -- Indentation
-opt.tabstop = 2            -- a <Tab> looks 2 spaces wide
-opt.shiftwidth = 2         -- one indent step = 2 spaces
+opt.tabstop = 4            -- a <Tab> looks 4 spaces wide
+opt.shiftwidth = 4         -- one indent step = 4 spaces
 opt.expandtab = true       -- pressing <Tab> inserts spaces, not a tab char
 opt.smartindent = true     -- auto-indent new lines sensibly
 

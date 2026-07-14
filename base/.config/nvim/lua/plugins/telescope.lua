@@ -19,7 +19,14 @@ return {
   },
   config = function()
     local telescope = require("telescope")
-    telescope.setup({})
+    telescope.setup({
+      defaults = {
+        -- nvim-treesitter's `main` branch dropped the old `parsers.ft_to_lang`
+        -- API that telescope's previewer still expects, which crashes preview
+        -- highlighting. Use the plain regex highlighter instead.
+        preview = { treesitter = false },
+      },
+    })
     pcall(telescope.load_extension, "fzf") -- enable the native sorter if built
   end,
 }

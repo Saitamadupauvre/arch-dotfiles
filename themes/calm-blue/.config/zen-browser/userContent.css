@@ -1,0 +1,12 @@
+/* Calm Blue - Zen Browser content (new tab / internal pages)
+ * Install: symlink into your profile's chrome/ dir, e.g.
+ *   ln -sf ~/dotfiles/themes/calm-blue/.config/zen-browser/userContent.css \
+ *          "~/.zen/<profile>/chrome/userContent.css"
+ */
+
+@-moz-document url(about:newtab), url(about:home) {
+    :root {
+        --newtab-background-color: #0a0e1a !important;
+        --newtab-text-primary-color: #cddcff !important;
+    }
+}
