@@ -57,6 +57,7 @@ stow --dir=~/dotfiles/themes --target=$HOME -D calm-blue
 | rofi | template/rounded-template.rasi, and shared palette rasi files not tied to the active theme |
 | gtk-3.0 | gtk.css, colors.css, settings.ini, window_decorations.css, assets/ |
 | gtk-4.0 | colors.css, settings.ini, window_decorations.css |
+| nvim | init.lua, lua/config/, lua/plugins/ (minus colorscheme.lua and lualine.lua), README.md, lazy-lock.json |
 | root | .gtkrc-2.0 |
 
 `base/.config/gtk-3.0/colors.css` and `gtk-4.0/colors.css` are Breeze system-theme colors, not
@@ -76,6 +77,7 @@ Each theme dir (`themes/<name>/`) contains only visual overrides:
 | btop | btop.conf, themes/<name>.theme |
 | rofi | `<name>.rasi` (imports `~/.config/rofi/template/rounded-template.rasi` from base) |
 | ghostty | config |
+| nvim | lua/plugins/colorscheme.lua (colorscheme+style), lua/plugins/lualine.lua (statusline theme) |
 
 `themes/<name>/.config/hypr/hyprland.conf` is the one file that lives in the theme dir but isn't
 a visual override — Hyprland's glob engine can't follow symlinks into `base/`, so `hyprland.conf`
