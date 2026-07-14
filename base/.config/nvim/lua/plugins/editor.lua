@@ -29,4 +29,11 @@ return {
     "christoomey/vim-tmux-navigator",
     lazy = false,
   },
+
+  -- auto-save: saves buffer on InsertLeave / TextChanged / focus lost.
+  {
+    "pocco81/auto-save.nvim",
+    event = { "InsertLeave", "TextChanged" },
+    opts = {},
+  },
 }
