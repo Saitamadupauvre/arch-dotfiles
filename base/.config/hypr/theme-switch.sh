@@ -32,6 +32,14 @@ done
 
 stow --dir="$THEMES_DIR" --target="$HOME" --no-folding "$THEME"
 
+# AGS bar can't relative-import a scss file that lives in a different stow
+# tree than app.ts (esbuild resolves against the real path, not the symlink),
+# so precompile the theme's style.scss into base's physical directory.
+if [[ -f "$THEME_DIR/.config/ags/style.scss" ]] && command -v sass >/dev/null; then
+    sass "$THEME_DIR/.config/ags/style.scss" \
+        "/home/alban/dotfiles/base/.config/ags/style.compiled.css"
+fi
+
 # Apply today's rotating wallpaper if this theme ships one; otherwise fall back
 # to the theme's static wallpaper.
 if [[ -x "$HOME/.config/hypr/wallpaper-daily.sh" ]]; then
@@ -46,8 +54,8 @@ else
     fi
 fi
 
-pkill -x waybar || true
-waybar >/dev/null 2>&1 & disown
+pkill -f "ags run" || true
+ags run ~/.config/ags >/dev/null 2>&1 & disown
 
 hyprctl reload
 echo "Switched to theme: $THEME"

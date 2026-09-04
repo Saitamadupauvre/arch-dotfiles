@@ -1,0 +1,4 @@
+\.git$
+^/\.config/ags/node_modules$
+^/\.config/ags/@girs$
+^/\.config/ags/style\.compiled\.css$

@@ -1,0 +1,226 @@
+$bg: #0a0e1a;
+$surface: rgba(15, 21, 36, 0.72);
+$surface-hover: rgba(28, 37, 63, 0.85);
+$fg: #cddcff;
+$muted: #5c7099;
+$accent: #5c7fff;
+$accent2: #9a7dff;
+$accent-dim: rgba(154, 125, 255, 0.25);
+$border: rgba(154, 125, 255, 0.18);
+
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 13px;
+}
+
+window.Bar {
+  background: transparent;
+}
+
+centerbox {
+  padding: 0px;
+}
+
+module-group {
+  background-color: $surface;
+  border: 1px solid $border;
+  border-radius: 14px;
+  padding: 3px 6px;
+}
+
+module-group:first-child {
+  margin-right: 8px;
+}
+
+module-group:last-child {
+  margin-left: 8px;
+}
+
+/* individual modules inside a group */
+workspaces,
+client-title,
+sysinfo,
+network,
+volume,
+battery,
+clock,
+tray {
+  border-radius: 10px;
+  padding: 4px 10px;
+  color: $fg;
+  font-weight: bold;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+client-title {
+  color: $muted;
+  font-weight: normal;
+  margin-left: 4px;
+}
+
+sysinfo,
+network,
+volume,
+battery,
+clock {
+  margin: 0 1px;
+}
+
+sysinfo:hover,
+network:hover,
+volume:hover,
+clock:hover,
+battery:hover,
+tray:hover {
+  background-color: $surface-hover;
+}
+
+/* workspaces */
+workspaces {
+  padding: 3px 4px;
+}
+
+workspaces .workspace {
+  min-width: 22px;
+  min-height: 22px;
+  border-radius: 7px;
+  margin: 0 2px;
+  color: $muted;
+  font-weight: bold;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+workspaces .workspace.active {
+  background-color: $accent;
+  color: $bg;
+}
+
+workspaces .workspace:hover {
+  background-color: $accent-dim;
+  color: $fg;
+}
+
+/* tray */
+tray {
+  padding: 2px 8px;
+}
+
+/* popovers */
+popover {
+  background: transparent;
+}
+
+popover > contents,
+popover contents {
+  background-color: rgba(10, 14, 26, 0.92);
+  border: 1px solid $border;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+volume-popover,
+network-popover,
+battery-popover,
+sysinfo-popover {
+  min-width: 220px;
+  color: $fg;
+}
+
+popover-section {
+  color: $accent2;
+  font-weight: bold;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+popover-dim {
+  color: $muted;
+}
+
+popover-empty {
+  color: $muted;
+  padding: 6px 0;
+}
+
+popover-icon-btn {
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 8px;
+  background-color: $surface-hover;
+}
+
+popover-icon-btn:hover {
+  background-color: $accent-dim;
+}
+
+popover-more {
+  border-radius: 8px;
+  padding: 6px 8px;
+  margin-top: 4px;
+  background-color: $surface-hover;
+  color: $fg;
+}
+
+popover-more:hover {
+  background-color: $accent-dim;
+}
+
+ap-row {
+  border-radius: 8px;
+  padding: 4px 6px;
+  color: $fg;
+}
+
+ap-row:hover {
+  background-color: $accent-dim;
+}
+
+scale {
+  min-height: 6px;
+}
+
+scale trough {
+  background-color: $surface-hover;
+  border-radius: 999px;
+  min-height: 6px;
+}
+
+scale highlight {
+  background-color: $accent;
+  border-radius: 999px;
+}
+
+scale slider {
+  background-color: $fg;
+  border-radius: 999px;
+  min-width: 12px;
+  min-height: 12px;
+}
+
+switch {
+  background-color: $surface-hover;
+  border-radius: 999px;
+  min-width: 36px;
+  min-height: 20px;
+}
+
+switch:checked {
+  background-color: $accent;
+}
+
+switch slider {
+  background-color: $fg;
+  border-radius: 999px;
+  min-width: 16px;
+  min-height: 16px;
+  margin: 2px;
+}
+
+calendar {
+  background-color: transparent;
+  color: $fg;
+}

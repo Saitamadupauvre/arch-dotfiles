@@ -36,3 +36,14 @@ map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete buffer" })
 -- Save and quit
 map("n", "<leader>w", "<cmd>write<CR>", { desc = "Save file" })
 map("n", "<leader>q", "<cmd>quit<CR>", { desc = "Quit window" })
+
+-- File explorer (netrw)
+map("n", "<C-e>", "<cmd>Explore<CR>", { desc = "Open file explorer" })
+
+-- Netrw: Esc goes up a directory, same as "-"
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "netrw",
+  callback = function(ev)
+    map("n", "<Esc>", "-", { buffer = ev.buf, desc = "Go up a directory" })
+  end,
+})

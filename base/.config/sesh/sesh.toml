@@ -1,0 +1,28 @@
+[default_session]
+startup_command = "nvim ."
+
+  [[default_session.window]]
+  name = "editor"
+  startup_command = "nvim ."
+
+  [[default_session.window]]
+  name = "git"
+  startup_command = "lazygit"
+
+  [[default_session.window]]
+  name = "shell"
+
+[[session]]
+name = "dotfiles"
+path = "~/dotfiles"
+
+  [[session.window]]
+  name = "editor"
+  startup_command = "nvim ."
+
+  [[session.window]]
+  name = "git"
+  startup_command = "lazygit"
+
+  [[session.window]]
+  name = "shell"

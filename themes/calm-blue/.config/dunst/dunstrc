@@ -2,9 +2,9 @@
     follow = mouse
     indicate_hidden = yes
 
-    offset = 10x10
-
-    notification_height = 0
+    width = 400
+    height = (80, 200)
+    offset = (10, 10)
 
     separator_height = 2
 
