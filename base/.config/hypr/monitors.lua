@@ -1,0 +1,10 @@
+-- Generic fallback — auto-detect and let Hyprland pick sane defaults.
+-- Run nwg-displays to generate a machine-specific layout if needed; this file
+-- stays generic so it doesn't hardcode any one machine's monitor names.
+
+hl.monitor({
+    output   = "",
+    mode     = "preferred",
+    position = "auto",
+    scale    = 1,
+})

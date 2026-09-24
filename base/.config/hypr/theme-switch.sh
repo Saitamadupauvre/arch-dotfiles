@@ -45,8 +45,8 @@ fi
 if [[ -x "$HOME/.config/hypr/wallpaper-daily.sh" ]]; then
     "$HOME/.config/hypr/wallpaper-daily.sh"
 else
-    THEME_CONF="$THEME_DIR/.config/hypr/theme.conf"
-    WALLPAPER=$(grep '^\$wallpaper' "$THEME_CONF" | sed 's/.*= *//' | sed "s|~|$HOME|")
+    THEME_LUA="$THEME_DIR/.config/hypr/theme.lua"
+    WALLPAPER=$(grep -E '^\s*wallpaper\s*=' "$THEME_LUA" | sed -E 's/.*"(.*)".*/\1/' | sed "s|~|$HOME|")
     if [[ -f "$WALLPAPER" ]]; then
         awww img "$WALLPAPER" --transition-fps 255 --transition-type outer --transition-duration 0.8
     else
