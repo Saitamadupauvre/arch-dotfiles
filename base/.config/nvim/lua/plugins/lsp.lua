@@ -20,27 +20,32 @@ return {
     -- Completion capabilities advertised to every server (from nvim-cmp).
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    -- Runs when a server attaches to a buffer: set buffer-local keymaps.
-    local function on_attach(_, bufnr)
-      local map = function(keys, fn, desc)
-        vim.keymap.set("n", keys, fn, { buffer = bufnr, desc = "LSP: " .. desc })
-      end
-      map("gd", vim.lsp.buf.definition, "Go to definition")
-      map("gD", vim.lsp.buf.declaration, "Go to declaration")
-      map("gr", vim.lsp.buf.references, "List references")
-      map("gi", vim.lsp.buf.implementation, "Go to implementation")
-      map("K", vim.lsp.buf.hover, "Hover docs")
-      map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
-      map("<leader>ca", vim.lsp.buf.code_action, "Code action")
-      map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-      map("]d", vim.diagnostic.goto_next, "Next diagnostic")
-      map("<leader>cd", vim.diagnostic.open_float, "Show line diagnostics")
-    end
+    -- Set buffer-local keymaps whenever any server attaches. Using the
+    -- LspAttach autocmd instead of vim.lsp.config's on_attach because the
+    -- latter isn't reliably invoked for servers auto-enabled by
+    -- mason-lspconfig.
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function(args)
+        local bufnr = args.buf
+        local map = function(keys, fn, desc)
+          vim.keymap.set("n", keys, fn, { buffer = bufnr, desc = "LSP: " .. desc })
+        end
+        map("gd", vim.lsp.buf.definition, "Go to definition")
+        map("gD", vim.lsp.buf.declaration, "Go to declaration")
+        map("gr", vim.lsp.buf.references, "List references")
+        map("gi", vim.lsp.buf.implementation, "Go to implementation")
+        map("K", vim.lsp.buf.hover, "Hover docs")
+        map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+        map("<leader>ca", vim.lsp.buf.code_action, "Code action")
+        map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+        map("]d", vim.diagnostic.goto_next, "Next diagnostic")
+        map("<leader>cd", vim.diagnostic.open_float, "Show line diagnostics")
+      end,
+    })
 
     -- Apply these defaults to every server lspconfig configures.
     vim.lsp.config("*", {
       capabilities = capabilities,
-      on_attach = on_attach,
     })
 
     require("mason-lspconfig").setup({
