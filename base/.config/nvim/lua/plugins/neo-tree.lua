@@ -9,7 +9,8 @@ return {
     "MunifTanjim/nui.nvim",        -- UI component library
   },
   keys = {
-    { "<leader>e", "<cmd>Neotree toggle<CR>", desc = "Toggle file explorer" },
+    { "<leader>e", "<cmd>Neotree toggle focus<CR>", desc = "Toggle file explorer (focus)" },
+    { "<leader>o", "<C-w>p", desc = "Jump back to last window" },
   },
   opts = {
     close_if_last_window = true, -- close nvim if the tree is the last window
