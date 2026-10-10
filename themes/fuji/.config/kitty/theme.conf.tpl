@@ -1,5 +1,5 @@
 # Fuji
-background_opacity 0.68
+background_opacity 0.85
 
 # The basic colors
 foreground              #{{FG0}}
