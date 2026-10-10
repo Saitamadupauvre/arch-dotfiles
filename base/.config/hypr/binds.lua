@@ -32,6 +32,7 @@ exec(mainMod .. " + P", p.colorPicker .. " | wl-copy")
 -- System
 exec("SUPER + L", shell.lock)
 exec("SUPER + ESCAPE", shell.logout)
+exec("SUPER + SHIFT + T", "~/.config/hypr/theme-picker.sh")
 exec("CTRL + Escape", shell.restart)
 
 -- Screenshots
