@@ -46,8 +46,8 @@
         "barType": "simple",
         "capsuleColorKey": "none",
         "capsuleOpacity": 1,
-        "contentPadding": 2,
-        "density": "default",
+        "contentPadding": 19,
+        "density": "comfortable",
         "displayMode": "always_visible",
         "enableExclusionZoneInset": true,
         "fontScale": 1,
@@ -71,77 +71,13 @@
         "rightClickFollowMouse": true,
         "screenOverrides": [
         ],
-        "showCapsule": true,
+        "showCapsule": false,
         "showOnWorkspaceSwitch": true,
-        "showOutline": false,
+        "showOutline": true,
         "useSeparateOpacity": false,
-        "widgetSpacing": 6,
+        "widgetSpacing": 15,
         "widgets": {
             "center": [
-                {
-                    "characterCount": 2,
-                    "colorizeIcons": false,
-                    "emptyColor": "secondary",
-                    "enableScrollWheel": true,
-                    "focusedColor": "primary",
-                    "followFocusedScreen": false,
-                    "fontWeight": "bold",
-                    "groupedBorderOpacity": 1,
-                    "hideUnoccupied": false,
-                    "iconScale": 0.8,
-                    "id": "Workspace",
-                    "labelMode": "index",
-                    "occupiedColor": "secondary",
-                    "pillSize": 0.6,
-                    "showApplications": false,
-                    "showApplicationsHover": false,
-                    "showBadge": true,
-                    "showLabelsOnlyWhenOccupied": true,
-                    "unfocusedIconsOpacity": 1
-                }
-            ],
-            "left": [
-                {
-                    "colorizeSystemIcon": "none",
-                    "colorizeSystemText": "none",
-                    "customIconPath": "",
-                    "enableColorization": false,
-                    "icon": "rocket",
-                    "iconColor": "none",
-                    "id": "Launcher",
-                    "useDistroLogo": false
-                },
-                {
-                    "clockColor": "none",
-                    "customFont": "",
-                    "formatHorizontal": "HH:mm ddd, MMM dd",
-                    "formatVertical": "HH mm - dd MM",
-                    "id": "Clock",
-                    "tooltipFormat": "HH:mm ddd, MMM dd",
-                    "useCustomFont": false
-                },
-                {
-                    "compactMode": true,
-                    "diskPath": "/",
-                    "iconColor": "none",
-                    "id": "SystemMonitor",
-                    "showCpuCores": false,
-                    "showCpuFreq": false,
-                    "showCpuTemp": true,
-                    "showCpuUsage": true,
-                    "showDiskAvailable": false,
-                    "showDiskUsage": false,
-                    "showDiskUsageAsPercent": false,
-                    "showGpuTemp": false,
-                    "showLoadAverage": false,
-                    "showMemoryAsPercent": false,
-                    "showMemoryUsage": true,
-                    "showNetworkStats": false,
-                    "showSwapUsage": false,
-                    "textColor": "none",
-                    "useMonospaceFont": true,
-                    "usePadding": false
-                },
                 {
                     "colorizeIcons": false,
                     "hideMode": "hidden",
@@ -168,6 +104,39 @@
                     "textColor": "none",
                     "useFixedWidth": false,
                     "visualizerType": "linear"
+                }
+            ],
+            "left": [
+                {
+                    "colorizeSystemIcon": "none",
+                    "colorizeSystemText": "none",
+                    "customIconPath": "",
+                    "enableColorization": false,
+                    "icon": "rocket",
+                    "iconColor": "none",
+                    "id": "Launcher",
+                    "useDistroLogo": false
+                },
+                {
+                    "characterCount": 2,
+                    "colorizeIcons": false,
+                    "emptyColor": "secondary",
+                    "enableScrollWheel": true,
+                    "focusedColor": "primary",
+                    "followFocusedScreen": false,
+                    "fontWeight": "bold",
+                    "groupedBorderOpacity": 1,
+                    "hideUnoccupied": false,
+                    "iconScale": 0.8,
+                    "id": "Workspace",
+                    "labelMode": "index",
+                    "occupiedColor": "secondary",
+                    "pillSize": 0.6,
+                    "showApplications": false,
+                    "showApplicationsHover": false,
+                    "showBadge": true,
+                    "showLabelsOnlyWhenOccupied": true,
+                    "unfocusedIconsOpacity": 1
                 }
             ],
             "right": [
@@ -222,6 +191,15 @@
                     "icon": "noctalia",
                     "id": "ControlCenter",
                     "useDistroLogo": false
+                },
+                {
+                    "clockColor": "none",
+                    "customFont": "",
+                    "formatHorizontal": "HH:mm ddd, MMM dd",
+                    "formatVertical": "HH mm - dd MM",
+                    "id": "Clock",
+                    "tooltipFormat": "HH:mm ddd, MMM dd",
+                    "useCustomFont": false
                 }
             ]
         }
@@ -255,10 +233,10 @@
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "monitorForColors": "",
-        "predefinedScheme": "Noctalia (default)",
+        "predefinedScheme": "Dracula",
         "schedulingMode": "off",
         "syncGsettings": true,
-        "useWallpaperColors": true
+        "useWallpaperColors": false
     },
     "controlCenter": {
         "cards": [
@@ -370,8 +348,8 @@
         "avatarImage": "/home/alban/.face",
         "boxRadiusRatio": 1,
         "clockFormat": "hh\\nmm",
-        "clockStyle": "custom",
-        "compactLockScreen": false,
+        "clockStyle": "digital",
+        "compactLockScreen": true,
         "dimmerOpacity": 0.2,
         "enableBlurBehind": true,
         "enableLockScreenCountdown": true,
@@ -405,8 +383,8 @@
         },
         "language": "",
         "lockOnSuspend": true,
-        "lockScreenAnimations": false,
-        "lockScreenBlur": 0,
+        "lockScreenAnimations": true,
+        "lockScreenBlur": 0.05,
         "lockScreenCountdownDuration": 10000,
         "lockScreenMonitors": [
         ],
@@ -550,38 +528,59 @@
         "powerOptions": [
             {
                 "action": "lock",
+                "command": "",
+                "countdownEnabled": true,
                 "enabled": true,
                 "keybind": "1"
             },
             {
                 "action": "suspend",
+                "command": "",
+                "countdownEnabled": true,
                 "enabled": true,
                 "keybind": "2"
             },
             {
                 "action": "hibernate",
+                "command": "",
+                "countdownEnabled": true,
                 "enabled": true,
                 "keybind": "3"
             },
             {
                 "action": "reboot",
+                "command": "",
+                "countdownEnabled": true,
                 "enabled": true,
                 "keybind": "4"
             },
             {
                 "action": "logout",
+                "command": "",
+                "countdownEnabled": true,
                 "enabled": true,
                 "keybind": "5"
             },
             {
                 "action": "shutdown",
+                "command": "",
+                "countdownEnabled": true,
                 "enabled": true,
                 "keybind": "6"
             },
             {
                 "action": "rebootToUefi",
+                "command": "",
+                "countdownEnabled": true,
                 "enabled": true,
                 "keybind": "7"
+            },
+            {
+                "action": "userspaceReboot",
+                "command": "",
+                "countdownEnabled": true,
+                "enabled": false,
+                "keybind": ""
             }
         ],
         "showHeader": true,
@@ -631,8 +630,8 @@
         "translucentWidgets": false
     },
     "wallpaper": {
-        "automationEnabled": true,
-        "directory": "/home/alban/.config/assets/backgrounds/sakura",
+        "automationEnabled": false,
+        "directory": "/home/alban/.config/assets/backgrounds/fuji",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "favorites": [
