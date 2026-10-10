@@ -37,7 +37,7 @@ window#waybar {
 }
 
 #workspaces button:hover {
-    background-color: rgba({{ACCENT2_RGB}}, 0.35);
+    background-color: rgba(154,125,255, 0.35);
     color: #{{FG0}};
     border: 1px solid #{{ACCENT2}};
     border-radius: 10px;
@@ -51,16 +51,22 @@ window#waybar {
 #cpu,
 #memory,
 #workspaces,
-#tray,
-#backlight {
+#tray {
     background-color: rgba({{BG1_RGB}}, 0.5);
     padding: 0px 10px;
     margin: 3px 0px;
     margin-top: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-#backlight {
-    border-radius: 10px 0px 0px 10px;
+#cpu:hover,
+#memory:hover,
+#network:hover,
+#pulseaudio:hover,
+#battery:hover,
+#clock:hover {
+    background-color: rgba(154,125,255, 0.25);
+    color: #{{FG0}};
 }
 
 #tray {
@@ -89,6 +95,16 @@ window#waybar {
     border-radius: 10px;
     margin-left: 60px;
     margin-right: 60px;
+    animation: window-in 0.35s ease-out;
+}
+
+@keyframes window-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 #clock {
