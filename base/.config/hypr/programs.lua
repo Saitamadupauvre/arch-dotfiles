@@ -7,7 +7,6 @@
 programs = {
     terminal    = "kitty",
     fileManager = "nautilus",
-    menu        = "rofi -show drun -modes drun -theme ~/.config/rofi/calm-blue.rasi",
     browser     = "zen-browser",
     notes       = "obsidian",
     editor      = "code",

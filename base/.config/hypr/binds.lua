@@ -19,7 +19,7 @@ exec(mainMod .. " + O", p.notes)
 exec(mainMod .. " + C", p.editor)
 exec(mainMod .. " + S", p.editorAlt)
 exec(mainMod .. " + F", p.fileManager)
-exec(mainMod .. " + Space", p.menu)
+exec(mainMod .. " + Space", shell.menu)
 bind(mainMod .. " + Q", hl.dsp.window.close())
 bind(mainMod .. " + M", hl.dsp.exit())
 bind(mainMod .. " + W", hl.dsp.window.float({ action = "toggle" }))
@@ -30,9 +30,9 @@ exec("SUPER + V", "cliphist list | tofi -c ~/.config/tofi/configV | cliphist dec
 exec(mainMod .. " + P", p.colorPicker .. " | wl-copy")
 
 -- System
-exec("SUPER + L", "hyprlock")
-exec("SUPER + ESCAPE", "wlogout")
-exec("CTRL + Escape", "killall waybar || waybar")
+exec("SUPER + L", shell.lock)
+exec("SUPER + ESCAPE", shell.logout)
+exec("CTRL + Escape", shell.restart)
 
 -- Screenshots
 exec("Print", "grimblast --notify copysave screen")

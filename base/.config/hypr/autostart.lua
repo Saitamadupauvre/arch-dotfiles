@@ -5,10 +5,10 @@
 -- Runs once at login (equivalent of exec-once)
 hl.on("hyprland.start", function()
     hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
-    hl.exec_cmd("/usr/bin/dunst")
-    hl.exec_cmd("ags run ~/.config/ags")
-    hl.exec_cmd("awww-daemon")
-    hl.exec_cmd("[ -x ~/.config/hypr/wallpaper-daily.sh ] && ~/.config/hypr/wallpaper-daily.sh")
+    -- Theme shell (bar, notifications, wallpaper daemon...) — see the theme's shell.lua
+    for _, cmd in ipairs(shell.start) do
+        hl.exec_cmd(cmd)
+    end
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
     hl.exec_cmd("hypridle")

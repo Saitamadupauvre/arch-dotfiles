@@ -1,0 +1,6 @@
+\.git$
+.*\.tpl
+^/generate\.sh$
+^/palette\.conf$
+^/\.config/ags/node_modules$
+^/\.config/ags/@girs$
