@@ -15,7 +15,7 @@ dotfiles/
   themes/                            # stow dir for theme packages (only visuals live here)
     .stow                            # marks this as its own stow boundary
     calm-blue/                       # AGS bar + dunst + rofi + hyprlock + wlogout, awww wallpaper
-    sakura/                          # Noctalia (Quickshell): bar, notifs, launcher, lock, wallpaper
+    fuji/                            # Noctalia (Quickshell): bar, notifs, launcher, lock, wallpaper
 ```
 
 **Active theme** is the name in `~/.config/hypr/current-theme` (written by `theme-switch.sh`).
@@ -83,8 +83,8 @@ Each theme dir (`themes/<name>/`) contains only visual overrides:
 | nvim | lua/plugins/colorscheme.lua (colorscheme+style), lua/plugins/lualine.lua (statusline theme) |
 
 Per-theme extras: calm-blue also ships `ags/`, dunst, tofi, rofi, wlogout, hyprlock, waybar css,
-`palette.conf` + `*.tpl` + `generate.sh`. sakura ships `noctalia/settings.json` (colors from
-wallpaper; wallpapers in `~/.config/assets/backgrounds/sakura/`) + palette/tpl for kitty/tofi.
+`palette.conf` + `*.tpl` + `generate.sh`. fuji ships `noctalia/settings.json` (colors from
+wallpaper; wallpapers in `~/.config/assets/backgrounds/fuji/`) + palette/tpl for kitty/tofi.
 Each theme has a `.stow-local-ignore` (ignores `.*\.tpl`, `generate.sh`, `palette.conf`).
 
 ### Theme shell contract (`shell.lua`)
@@ -169,4 +169,3 @@ uses the accent color.
 - `lock-hover.png` missing from `assets/.config/assets/wlogout/assets/`
 - Wallpaper paths in `hyprlock.conf` (`monochrome.png`, `monochrome_blurred.png`) reference `~/.config/assets/backgrounds/` which doesn't exist yet — no backgrounds directory
 - `gtk-4.0/gtk.css` and `gtk-4.0/gtk-dark.css` are system symlinks to `/usr/share/themes/Breeze/gtk-4.0/` — not tracked here by design
-- `assets/.config/assets/backgrounds/sakura/` is empty — add sakura wallpapers for Noctalia
