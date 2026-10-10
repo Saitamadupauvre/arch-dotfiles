@@ -1,0 +1,102 @@
+--- a/Modules/LockScreen/LockScreen.qml
++++ b/Modules/LockScreen/LockScreen.qml
+@@ -1,5 +1,6 @@
+ import QtQuick 6.11
+ import QtQuick.Controls
++import QtQuick.Effects
+ import QtQuick.Layouts
+ import Quickshell
+ import Quickshell.Services.Pam
+@@ -66,11 +67,42 @@
+     Item {
+       id: lockContainer
+ 
++      // Circle reveal: 0 = closed, 1 = covers the whole screen.
++      // Grows when the lock appears, shrinks before the session is released.
++      property real reveal: 0
++      Component.onCompleted: revealIn.start()
++
++      NumberAnimation {
++        id: revealIn
++        target: lockContainer
++        property: "reveal"
++        to: 1
++        duration: 650
++        easing.type: Easing.OutCubic
++      }
++
++      SequentialAnimation {
++        id: revealOut
++        NumberAnimation {
++          target: lockContainer
++          property: "reveal"
++          to: 0
++          duration: 450
++          easing.type: Easing.InCubic
++        }
++        ScriptAction {
++          script: {
++            lockSession.locked = false;
++            root.scheduleUnloadAfterUnlock();
++          }
++        }
++      }
++
+       LockContext {
+         id: lockContext
+         onUnlocked: {
+-          lockSession.locked = false;
+-          root.scheduleUnloadAfterUnlock();
++          revealIn.stop();
++          revealOut.start();
+           lockContext.currentText = "";
+         }
+         onFailed: {
+@@ -92,10 +124,47 @@
+ 
+         WlSessionLockSurface {
+           id: lockSurface
++          color: "transparent"
++
++          // Circle that drives the reveal mask.
++          Item {
++            id: revealCircle
++            anchors.fill: parent
++            visible: false
++            layer.enabled: true
++
++            Rectangle {
++              readonly property real full: Math.sqrt(lockSurface.width * lockSurface.width + lockSurface.height * lockSurface.height) + 160
++              width: full * lockContainer.reveal
++              height: width
++              radius: width / 2
++              anchors.centerIn: parent
++              color: "white"
++            }
++          }
++
++          // Blurred copy of the circle so the rim fades out softly.
++          MultiEffect {
++            id: revealMask
++            anchors.fill: parent
++            source: revealCircle
++            blurEnabled: true
++            blur: 1.0
++            blurMax: 64
++            visible: false
++            layer.enabled: true
++          }
+ 
+           Loader {
+             anchors.fill: parent
+             active: true
++            layer.enabled: lockContainer.reveal < 1
++            layer.effect: MultiEffect {
++              maskEnabled: true
++              maskSource: revealMask
++              maskThresholdMin: 0.5
++              maskSpreadAtMin: 1.0
++            }
+             sourceComponent: (!lockContainer.anyConfiguredMonitorConnected || Settings.data.general.lockScreenMonitors.includes(lockSurface.screen?.name)) ? fullLockScreenComponent : blackScreenComponent
+           }
+ 

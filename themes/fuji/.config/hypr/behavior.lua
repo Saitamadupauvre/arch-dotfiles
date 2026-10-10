@@ -1,4 +1,4 @@
--- Sakura — behavior: soft, slow, floaty motion
+-- Fuji — behavior: soft, slow, floaty motion
 
 hl.config({
     general = {
@@ -63,3 +63,8 @@ hl.layer_rule({ match = { namespace = "^(noctalia.*)$" }, blur = true, ignore_al
 for _, ns in ipairs({ "rofi", "tofi" }) do
     hl.layer_rule({ match = { namespace = ns }, blur = true })
 end
+
+-- Lock screen circle reveal (noctalia-patches/lock-reveal.patch): show the desktop through the
+-- transparent part of the lock surface while the circle grows/shrinks. allow_session_lock_restore
+-- lets a restarted Noctalia take the lock back if it ever crashes while locked.
+hl.config({ misc = { session_lock_xray = true, allow_session_lock_restore = true } })

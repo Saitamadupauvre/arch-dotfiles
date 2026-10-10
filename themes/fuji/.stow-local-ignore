@@ -2,3 +2,4 @@
 .*\.tpl
 ^/generate\.sh$
 ^/palette\.conf$
+^/noctalia-patches$
