@@ -14,8 +14,12 @@ dotfiles/
                                        # and any config that's identical across every theme
   themes/                            # stow dir for theme packages (only visuals live here)
     .stow                            # marks this as its own stow boundary
-    calm-blue/                # complete theme: colors + wallpaper + a few theme-only files
+    calm-blue/                       # AGS bar + dunst + rofi + hyprlock + wlogout, awww wallpaper
+    sakura/                          # Noctalia (Quickshell): bar, notifs, launcher, lock, wallpaper
 ```
+
+**Active theme** is the name in `~/.config/hypr/current-theme` (written by `theme-switch.sh`).
+`base/.config/hypr/hyprland.lua` reads it and requires that theme's `shell`, `theme`, `behavior`.
 
 `base` is never unstowed when switching themes — it holds everything that doesn't change with
 the visual theme: keybinds, window rules, autostart daemons, env vars, generic monitor/workspace
@@ -51,8 +55,7 @@ stow --dir=~/dotfiles/themes --target=$HOME -D calm-blue
 
 | Tool | Files |
 |---|---|
-| hypr | binds.lua, rules.lua, env.lua, autostart.lua, autostart.sh, monitors.lua, workspaces.lua, programs.lua, hypridle.conf, theme-switch.sh |
-| waybar | config.jsonc (module layout) |
+| hypr | hyprland.lua, binds.lua, rules.lua, env.lua, autostart.lua, monitors.lua, workspaces.lua, programs.lua, hypridle.conf, theme-switch.sh, theme-picker.sh (SUPER+SHIFT+T, tofi) |
 | wlogout | layout |
 | rofi | template/rounded-template.rasi, and shared palette rasi files not tied to the active theme |
 | gtk-3.0 | gtk.css, colors.css, settings.ini, window_decorations.css, assets/ |
@@ -69,7 +72,7 @@ Each theme dir (`themes/<name>/`) contains only visual overrides:
 
 | Tool | Files |
 |---|---|
-| hypr | theme.lua (+ theme.lua.tpl; colors, wallpaper), behavior.lua (gaps/blur/rounding/animations/layer rules), hyprlock.conf |
+| hypr | shell.lua (what the theme runs), lock.sh (for hypridle), theme.lua (borders, optional wallpaper), behavior.lua (gaps/blur/animations/layer rules) |
 | waybar | style.css |
 | dunst | dunstrc |
 | tofi | configA, configV |
@@ -79,9 +82,25 @@ Each theme dir (`themes/<name>/`) contains only visual overrides:
 | ghostty | config |
 | nvim | lua/plugins/colorscheme.lua (colorscheme+style), lua/plugins/lualine.lua (statusline theme) |
 
-`themes/<name>/.config/hypr/hyprland.lua` is the one file that lives in the theme dir but isn't
-a visual override — it `require`s both `base/` and the theme's own files by absolute path
-(see Lua config below).
+Per-theme extras: calm-blue also ships `ags/`, dunst, tofi, rofi, wlogout, hyprlock, waybar css,
+`palette.conf` + `*.tpl` + `generate.sh`. sakura ships `noctalia/settings.json` (colors from
+wallpaper; wallpapers in `~/.config/assets/backgrounds/sakura/`) + palette/tpl for kitty/tofi.
+Each theme has a `.stow-local-ignore` (ignores `.*\.tpl`, `generate.sh`, `palette.conf`).
+
+### Theme shell contract (`shell.lua`)
+
+```lua
+shell = {
+    start   = { "cmd", ... },  -- autostart.lua runs these at login; theme-switch.sh after switch
+    stop    = "cmd",           -- theme-switch.sh runs the OLD theme's stop
+    restart = "cmd",           -- CTRL+Escape
+    menu    = "cmd",           -- SUPER+Space
+    lock    = "cmd",           -- SUPER+L (hypridle uses lock.sh instead)
+    logout  = "cmd",           -- SUPER+Escape
+}
+```
+No `hl.*` calls in shell.lua — theme-switch.sh reads it with plain `lua`.
+AGS runs as `gjs -m .../ags.js` — stop it with `ags quit`, not `pkill -f 'ags run'`.
 
 ## Hyprland-specific Quirks
 
@@ -97,12 +116,13 @@ unknown keys/fields, out-of-range values, and Lua errors in required files.
 base first so the theme loads last:
 ```lua
 local base     = "/home/alban/dotfiles/base/.config/hypr/"
-local themeDir = "/home/alban/dotfiles/themes/<name>/.config/hypr/"
+local themeDir = dotfiles .. "themes/" .. activeTheme() .. "/.config/hypr/"
+require(themeDir .. "shell")
 require(base .. "programs")   -- then env, autostart, monitors, workspaces, binds, rules
 require(themeDir .. "theme")  -- then behavior
 ```
-Each `require` runs in its own scope; share values via globals: `programs` (programs.lua → binds/autostart)
-and `theme` (theme.lua → behavior.lua).
+Each `require` runs in its own scope; share values via globals: `shell` (shell.lua → binds/autostart),
+`programs` (programs.lua → binds/autostart) and `theme` (theme.lua → behavior.lua).
 
 **`hypridle.conf` is not loaded by `hyprland.lua`** — it's the standalone `hypridle` daemon's
 own config file (launched via `autostart.lua`), not a Hyprland config fragment.
@@ -128,12 +148,13 @@ cp -r ~/dotfiles/themes/calm-blue ~/dotfiles/themes/<name>
 # edit: hypr/theme.lua.tpl, hypr/behavior.lua, hypr/hyprlock.conf, waybar/style.css,
 #       dunst/dunstrc, tofi/configA, tofi/configV, wlogout/style.css,
 #       btop/btop.conf + btop/themes/<name>.theme, rofi/<name>.rasi, ghostty/config
-# update themeDir in hypr/hyprland.lua (<old-name> → <name>)
-~/.config/hypr/theme-switch.sh <name>
+# edit hypr/shell.lua + hypr/lock.sh if the theme uses a different shell
+~/.config/hypr/theme-switch.sh <name>   # no arg = list themes
 ```
 
-`theme-switch.sh` (lives in `base/.config/hypr/`, so it's available regardless of which theme is
-active) unstows all packages under `themes/`, stows the new one, applies wallpaper, reloads hyprland.
+`theme-switch.sh` (in base): dry-run stow conflict check → old theme's `shell.stop` → `generate.sh`
+→ unstow all themes, stow new → write `current-theme` → `hyprctl reload` → new `shell.start` →
+awww wallpaper only if theme.lua has `wallpaper = "..."`.
 
 ## calm-blue Palette
 
@@ -146,5 +167,6 @@ uses the accent color.
 
 - `assets` package not stowed: `~/.config/assets/wlogout/` was root-owned. Fix: `sudo rm -rf ~/.config/assets && stow --dir=~/dotfiles --target=$HOME --no-folding assets`
 - `lock-hover.png` missing from `assets/.config/assets/wlogout/assets/`
-- Wallpaper paths in `theme.conf`/`hyprlock.conf` (`monochrome.png`, `monochrome_blurred.png`) reference `~/.config/assets/backgrounds/` which doesn't exist yet — no backgrounds directory
+- Wallpaper paths in `hyprlock.conf` (`monochrome.png`, `monochrome_blurred.png`) reference `~/.config/assets/backgrounds/` which doesn't exist yet — no backgrounds directory
 - `gtk-4.0/gtk.css` and `gtk-4.0/gtk-dark.css` are system symlinks to `/usr/share/themes/Breeze/gtk-4.0/` — not tracked here by design
+- `assets/.config/assets/backgrounds/sakura/` is empty — add sakura wallpapers for Noctalia
