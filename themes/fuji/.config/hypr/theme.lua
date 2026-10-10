@@ -1,4 +1,4 @@
--- Sakura
+-- Fuji
 -- Global: read by behavior.lua. No `wallpaper` field: Noctalia manages the wallpaper,
 -- so theme-switch.sh skips awww for this theme.
 theme = {

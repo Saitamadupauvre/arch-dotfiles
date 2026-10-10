@@ -1,4 +1,4 @@
-# Sakura
+# Fuji
 background_opacity 0.68
 
 # The basic colors
