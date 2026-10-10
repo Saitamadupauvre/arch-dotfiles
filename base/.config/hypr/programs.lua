@@ -9,7 +9,7 @@ programs = {
     fileManager = "nautilus",
     browser     = "zen-browser",
     notes       = "obsidian",
-    editor      = "code",
+    editor      = "zeditor",
     editorAlt   = "subl",
     colorPicker = "hyprpicker",
 }
