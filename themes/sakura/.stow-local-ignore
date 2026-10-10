@@ -1,0 +1,4 @@
+\.git$
+.*\.tpl
+^/generate\.sh$
+^/palette\.conf$
