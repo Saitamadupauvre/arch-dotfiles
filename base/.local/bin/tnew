@@ -1,0 +1,20 @@
+#!/bin/sh
+# tnew <name> [dir] — create tmux session with nvim / claude / terminal windows, then attach.
+[ -z "$1" ] && { echo "usage: tnew <session-name> [dir]" >&2; exit 1; }
+name=$1
+dir=${2:-$PWD}
+
+if ! tmux has-session -t "=$name" 2>/dev/null; then
+  tmux new-session -d -s "$name" -c "$dir" -n nvim
+  tmux send-keys -t "=$name:nvim" nvim Enter
+  tmux new-window -t "=$name:" -c "$dir" -n claude
+  tmux send-keys -t "=$name:claude" claude Enter
+  tmux new-window -t "=$name:" -c "$dir" -n terminal
+  tmux select-window -t "=$name:nvim"
+fi
+
+if [ -n "$TMUX" ]; then
+  tmux switch-client -t "=$name"
+else
+  tmux attach -t "=$name"
+fi
